@@ -1,6 +1,13 @@
 package com.main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Signup implements Serializable{
 	String email;
@@ -19,5 +26,11 @@ public class Signup implements Serializable{
 		this.Password=Password;
 		this.ID=(int)(Math.random()*10000);
 	}
+
+
+	
+
+
+	
 	
 }
