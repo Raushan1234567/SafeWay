@@ -12,7 +12,7 @@ public class Main extends userlogin{
 		
 		
 		Scanner sc=new Scanner(System.in);
-		System.out.println("For User Login Enter-1, For User SingUp Enter-2,For Admin Login type-3");
+		 System.out.println("For User Login Press-1, For User SingUp Press-2,For Admin Login Press-3");
 		int a=sc.nextInt();
 		switch(a){
 		case 1:
@@ -27,11 +27,43 @@ public class Main extends userlogin{
 			AdminLogin();
 			
 			break;
-		}
+			
+			default :
+				System.out.println("Invalid Input");
+			Call();
 	
 		
 	}
 
 	
 
+}
+	
+	public static void Call() throws ClassNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		 System.out.println("For User Login Press-1, For User SingUp Press-2,For Admin Login Press-3");
+		 int a=sc.nextInt();
+			switch(a){
+			case 1:
+				userlogin();
+				
+				break;
+			case 2:
+				userSingUpn();
+				
+				break;
+			case 3:
+				AdminLogin();
+				
+				break;
+				default:
+					System.out.println("Invalid Input");
+					Call();
+					break;
+		
+}
+	}
+
+	
 }
