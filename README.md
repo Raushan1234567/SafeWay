@@ -25,7 +25,9 @@ This is a Indivdual project was completed within 5 days.In this Project I have n
 - bill class
 
 
-
+Features of this project...........
+<ul><li>Users can pay their bill easily.</li>
+  <li>User can see their tranction history</li></ul>
 
 #Flow of this Project is Understandble by this picture....
 
