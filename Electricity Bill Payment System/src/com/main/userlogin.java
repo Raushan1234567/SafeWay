@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -43,9 +44,11 @@ public class userlogin{
      fis.close();
      ois.close();
 
-
+boolean t=false;
      for(Signup  p:data ){
+    	
     	 if(Email.equals(p.email)&&Password.equals(p.Password)) {
+    		 t=true;
     		 System.out.println("Login success");
     		 System.out.println("For Check Your Bill Details-1, For Check Your Transaction History-2");
     		
@@ -62,26 +65,104 @@ public class userlogin{
     				 break;
     		 }
     		 
-    	 }else {
-    		 System.out.println("User name not exsit, you need to SingUp First.");
-    		 userSingUpn(); 
     	 }
          
     	 
      }
-	
+     if(t==false) {
+    	  System.out.println("User name not exsit, you need to SingUp First.");
+		 userSingUpn(); 
+     }
+		
+	 
 	
 }
 	
 	
-	private static void Transaction() {
+	private static void Transaction() throws ClassNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		
+		 List<Billgenerate> gen=new ArrayList<>();
+	     
+	     FileInputStream fis=new FileInputStream("userdata.p");
+	     
+	     ObjectInputStream ois=new ObjectInputStream(fis);
+	     
+	     while(fis.available()>0){
+	    	 Billgenerate  std=(Billgenerate) ois.readObject();
+	    	 gen.add(std);
+	     }
+	     LocalDateTime now = LocalDateTime.now();
+	     for(Billgenerate p:gen) {
+	    	System.out.println("******************Bill Deatails*******************************");
+	    	System.out.println( "Name"+" "+p.name+" "+"EmailAddress"+" "+p.email+" "+"Mobile no"+" "+p.mobile+" "+"Address" +" "+p.add+" "+p.Unit+"\n"+p.Billamount+"\n"+now); 
+	    	
+	     }
+	     
+	     fis.close();
+	     ois.close();
 	}
 
 
-	private static void billcheck() {
+	private static void billcheck() throws IOException, ClassNotFoundException {
+//		Scanner sc=new Scanner(System.in);
+//		String Email;
+//		System.out.println("Enter Your Email");
+//		Email=sc.next();
+// List<Billgenerate> gen=new ArrayList<>();
+//	     
+//	     FileInputStream fis=new FileInputStream("userdata.p");
+//	     
+//	     ObjectInputStream ois=new ObjectInputStream(fis);
+//	     
+//	     while(fis.available()>0){
+//	    	 Billgenerate  std=(Billgenerate) ois.readObject();
+//	    	 gen.add(std);
+//	     }
+		Scanner sc=new Scanner(System.in);
 		// TODO Auto-generated method stub
+		int b=(int) (Math.random()*100);
+		System.out.println("Your bill unit is - "+b);
+		int c=b*7;
+		System.out.println("Your bill unit is - "+c);
+		System.out.println();
+		System.out.println("For Payment Now press 1");
+		int p=sc.nextInt();
+		if(p==1) {
+			List<Integer > arr=new ArrayList<>();
+			arr.add(c);
+			
+			FileOutputStream fos=new FileOutputStream("Bill.p");
+	        ObjectOutputStream oos=new ObjectOutputStream(fos);
+	        
+	        for(Integer  st:arr){
+	            oos.writeObject(st);
+	        }
+	       
+	        fos.close();
+	        oos.close();
+			System.out.println(" Payment Successful");
+			Payment();
+		}
+	}
+
+
+	private static void Payment() throws ClassNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		 System.out.println("For Check Your Bill Details-1, For Check Your Transaction History-2");
+ 		Scanner sc=new Scanner(System.in);
+ 		int b;
+		  b=sc.nextInt();
+		 switch(b) {
+		 case 1 :
+		 billcheck();
+		 break;
+		 case 2 :
+			 Transaction();
+			 break;
+			 default :
+				 System.out.println("Invalid Input");
+				 break;
+		 }
 		
 	}
 
@@ -130,7 +211,7 @@ public class userlogin{
     	System.out.println("Enter add");
     	String add=sc.next();
     	
-    	System.out.println("Create your Password");
+    	System.out.println("Create Unique  Password");
     	String Password=sc.next();
     	
     	sing.add( new Signup (Email,Mobile,name,add,Password));
@@ -152,7 +233,7 @@ public class userlogin{
         
 userlogin();
        
-		System.out.println("For User Login Enter-1, For User SingUp Enter-2,For Admin Login type-3");
+		System.out.println("For User Login Press-1, For User SignUp Press-2,For Admin Login Press-3");
 		int a=sc.nextInt();
 		switch(a){
 		case 1:
@@ -186,38 +267,11 @@ userlogin();
     	
     	if(userid.equals(user)&&password.equals(Pass)) {
     		 System.out.println("Login success");
-    		 System.out.println("For View all customer press-1, For Update Press-2,For Delete-3");
-    		 
-    		 int b=0;
-    		 b=sc.nextInt();
-    		 switch(b) {
-    		 case 1:
-    			 List<Signup > sing=new ArrayList<>();
-     	    	
-     	    	
-     	    	
-            	 FileInputStream fis=new FileInputStream("data.p");
-                 
-                 ObjectInputStream ois=new ObjectInputStream(fis);
-                 
-                 while(fis.available()>0){
-                	 Signup  std=(Signup )ois.readObject();
-                	 sing.add(std);
-                 }
-                 for(Signup  p:sing){
-                     System.out.println("Name"+" " +p.name+" "+"EmailAddress"+" "+p.email+" "+"Mobile no"+" "+p.mobile+" "+"Address" +" "+p.add);
-                 }
-                 break;
-                 
-    		 case 2:
-    			 CustomerUpdate();
-    			 break;
-    		 
-    		 case 3:
-    			 DleteCutomer();
-    			 
-    		 }
     		
+    		
+    		 againadmin();
+
+    		 
     	}
     	else{
     		System.out.println("Something Went Wrong");
@@ -225,11 +279,66 @@ userlogin();
     }
 
 
+	private static void againadmin() throws ClassNotFoundException, IOException {
+		// TODO Auto-generated method stubSystem.out.println("For View all customer press-1, For Update Press-2,For Delete Press-3,For Logout Press-4");
+		 System.out.println("For View all customer press-1, For Update Press-2,For Delete Press-3,For Logout Press-4");
+		 Scanner sc=new Scanner(System.in);
+		 int b=0;
+		 b=sc.nextInt();
+		 switch(b) {
+		 case 1:
+			 ViewCuctomer();
+			 
+			
+            break;
+//view bill........................................................
+		 case 2:
+			 bill d=new bill();
+			 d.viewbill();
+			 break;
+		 
+		 case 3:
+			 DleteCutomer();
+			 AdminLogin();
+			 break;
+		 case 4:
+			System.out.println("Log Out Successfully");
+			Main p=new Main();
+			p.Call();
+			 break;
+			 default:
+				 System.out.println("Invalid Output");
+		 }
+		 againadmin();
+	}
+
+
+	private static void ViewCuctomer() throws IOException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		 List<Signup > sing=new ArrayList<>();
+	    	
+	    	
+	    	
+    	 FileInputStream fis=new FileInputStream("data.p");
+         
+         ObjectInputStream ois=new ObjectInputStream(fis);
+         
+         while(fis.available()>0){
+        	 Signup  std=(Signup )ois.readObject();
+        	 sing.add(std);
+         }
+         for(Signup  p:sing){
+             System.out.println("Name"+" " +p.name+" "+"EmailAddress"+" "+p.email+" "+"Mobile no"+" "+p.mobile+" "+"Address" +" "+p.add);
+         }
+        
+	}
+
+
 	private static void DleteCutomer() throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 	
 		Scanner sc=new Scanner(System.in);
-		System.out.println("Entter Email of Customer to delete");
+		System.out.println("Enter Email of Customer to delete");
 		 String EmailDelete=sc.next(); 
 		 List<Signup > sing=new ArrayList<>();
 	    	
@@ -261,8 +370,10 @@ userlogin();
          if(!s) {
         	 System.out.println("Customer not exist");
         	 DleteCutomer() ;
+     	 againadmin();
          }else {
         	 System.out.println("Deleted Successfully"); 
+        	 againadmin();
          }
 		
 	}
