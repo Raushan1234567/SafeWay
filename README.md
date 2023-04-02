@@ -10,13 +10,13 @@ Electricity Bill payment System
 
 JA111 Construct Week Project
 
-# Project Details
+# Project Details(Electricity Bill Payment System)
 
 This is a Indivdual project was completed within 5 days.In this Project I have not mde any UI.This is console based Project.
 
 
 
-# Class present in "Safe Way".
+# Class present in "Safe Way"(Name of Project).
 
 - Main class
 - Sign up class
